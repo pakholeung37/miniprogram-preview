@@ -1,0 +1,11 @@
+<div id="preview-container">
+loading...
+</div>
+<script>
+const container = document.getElementById("preview-container")
+fetch(`/api/preview`).then((res) => {
+  const result = res.json().then(({ des }) => {
+    container.innerHTML = `<img src="${des}"></img>`
+  })
+})
+</script>
