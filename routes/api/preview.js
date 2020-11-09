@@ -3,10 +3,12 @@ var router = express.Router();
 const ci = require("miniprogram-ci");
 const config = require("../../project.config");
 const path = require("path");
-/* GET home page. */
-router.get("/", async (req, res, next) => {
+
+let latestImageName
+const makeQrCode = async() => {
   const project = new ci.Project(config.miniProgram);
   const imagePath = path.resolve(__dirname, "../../public/images");
+  latestImageName = `qrCode${Date.now()}`
   try {
     const previewResult = await ci.preview({
       project,
@@ -17,20 +19,25 @@ router.get("/", async (req, res, next) => {
         minify: true,
       },
       qrcodeFormat: "image",
-      qrcodeOutputDest: path.resolve(imagePath, "./qrCode.jpg"),
+      qrcodeOutputDest: path.resolve(imagePath, `./${latestImageName}.jpg`),
       onProgressUpdate: () => {},
     });
     console.log(previewResult);
   } catch (e) {
-    res.sendStatus(500);
+    throw e
   }
+}
+setInterval(makeQrCode, 60000 * 3)
+
+router.get("/", async (req, res, next) => {
+
   res.set({
     "Content-Type": "application/json",
   });
   res.json({
-    name: "qrCode.jpg",
+    name: `${latestImageName}.jpg`,
     type: "jpeg",
-    des: "/images/qrCode.jpg",
+    des: `/images/${latestImageName}.jpg`,
   });
 });
 

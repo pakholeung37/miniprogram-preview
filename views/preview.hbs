@@ -3,9 +3,17 @@ loading...
 </div>
 <script>
 const container = document.getElementById("preview-container")
-fetch(`/api/preview`).then((res) => {
-  const result = res.json().then(({ des }) => {
-    container.innerHTML = `<img src="${des}"></img>`
+// 每分钟获取一次
+const fetchPreview = () => {
+  fetch(`/api/preview`).then((res) => {
+    const result = res.json().then(({ des }) => {
+      container.innerHTML = `<img src="${des}"></img>`
+    })
   })
-})
+}
+
+fetchPreview()
+let timer = 0
+clearInterval(timer)
+timer = setInterval(fetchPreview, 60000 * 3)
 </script>
