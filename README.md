@@ -4,7 +4,7 @@
 
 ## 快速开始
 
-需先配置好[project.config.js](#project.config.js)
+需先配置好[project.config.js](#projectconfigjs)
 
 ```shell
 $: yarn
@@ -34,10 +34,10 @@ module.exports = {
   port: 80, // 项目运行端口
   // 这部分配置请参考 https://developers.weixin.qq.com/miniprogram/dev/devtools/ci.html 项目对象一节
   miniProgram: {
-    appid: "wxe0550f87e4277615",
+    appid: "你的小程序appid",
     type: "miniProgram",
-    projectPath: "C:/Users/faisco/Desktop/wxmallapp",
-    privateKeyPath: "C:/Users/faisco/Desktop/private.wxe0550f87e4277615.key",
+    projectPath: "你的小程序项目根目录",
+    privateKeyPath: "你的privateKey路径",
   },
 };
 ```
