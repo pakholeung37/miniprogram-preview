@@ -36,16 +36,22 @@ const makeQrCode = async() => {
   }
 }
 
+let timer
 console.log("start watching "+config.miniProgram.projectPath)
 chokidar.watch(config.miniProgram.projectPath).on("change", async(event, path) => {
   console.log("files changes")
-  needUpdate = true
   if(lock) return 
   lock = true
-  while(needUpdate) {
-    needUpdate = false
-    await makeQrCode()
+  await makeQrCode()
+  // 定时25分钟构造一次, 防止开发码过期
+  clearTimeout(timer)
+  const buildAgain = () => {
+    console.log("build me a qrcode!")
+    makeQrCode()
+    timer = setTimeout(buildAgain, 25 * 60000)
   }
+  
+  timer = setTimeout(buildAgain, 25 * 60000)
   lock = false
 })
 
