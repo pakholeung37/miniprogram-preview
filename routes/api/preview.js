@@ -43,7 +43,11 @@ chokidar
     console.log("files changes");
     if (lock) return;
     lock = true;
-    await makeQrCode();
+    try {
+      await makeQrCode();
+    } catch (e) {
+      console.log("make qrcode error", e);
+    }
     // 定时25分钟构造一次, 防止开发码过期
     clearTimeout(timer);
     const buildAgain = () => {
